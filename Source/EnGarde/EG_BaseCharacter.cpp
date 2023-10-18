@@ -4,6 +4,7 @@
 #include "EG_BaseCharacter.h"
 #include "Net/UnrealNetwork.h"
 #include "Kismet/GameplayStatics.h"
+#include "HealthAndStaminaComponent.h"
 
 // Sets default values
 AEG_BaseCharacter::AEG_BaseCharacter()
@@ -11,6 +12,8 @@ AEG_BaseCharacter::AEG_BaseCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	bReplicates = true;
+
+	HSComp = CreateDefaultSubobject<UHealthAndStaminaComponent>(TEXT("Health & Stamina Component"));
 
 }
 

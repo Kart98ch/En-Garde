@@ -85,7 +85,7 @@ protected:
 
 #pragma region Variables
 public:
-
+	friend class AEG_BasePlayerController;
 
 protected:
 	// Swing states
@@ -105,6 +105,9 @@ protected:
 	UPROPERTY(BlueprintReadWrite, Replicated)
 		bool bAttack = false;
 
+	// Actor Components
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		class UHealthAndStaminaComponent* HSComp;
 
 #pragma endregion
 

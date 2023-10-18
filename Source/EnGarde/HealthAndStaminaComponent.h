@@ -27,27 +27,38 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable)
-		void DecreaseHealth(float Input) { Health -= Input; }
+		void DecreaseHealth(float Input);
 
 	UFUNCTION(BlueprintCallable)
-		void DecreaseStamina(float Input) { Stamina -= Input; }
+		void DecreaseStamina(float Input);
 
 	UFUNCTION(BlueprintCallable)
-		void IncreaseHealth(float Input) { Health += Input; }
+		void IncreaseHealth(float Input);
 
 	UFUNCTION(BlueprintCallable)
-		void IncreaseStamina(float Input) { Stamina += Input; }
+		void IncreaseStamina(float Input);
 
 	//RPCs
 	// TODO: need to create these RPCs and make corresponding Multicast RPCs
 	UFUNCTION(Server, Reliable, BlueprintCallable)
-		void BlockSuccess();
+		void Server_BlockSuccess();
+	UFUNCTION(NetMulticast, Reliable, BlueprintCallable)
+		void Multicast_BlockSuccess();
 
 	UFUNCTION(Server, Reliable, BlueprintCallable)
-		void BlockDecrement();
+		void Server_BlockDecrement();
+	UFUNCTION(NetMulticast, Reliable, BlueprintCallable)
+		void Multicast_BlockDecrement();
 
 	UFUNCTION(Server, Reliable, BlueprintCallable)
-		void SwingDecrement();
+		void Server_WrongBlockDecrement();
+	UFUNCTION(NetMulticast, Reliable, BlueprintCallable)
+		void Multicast_WrongBlockDecrement();
+
+	UFUNCTION(Server, Reliable, BlueprintCallable)
+		void Server_SwingDecrement();
+	UFUNCTION(NetMulticast, Reliable, BlueprintCallable)
+		void Multicast_SwingDecrement();
 
 #pragma endregion
 		
@@ -56,14 +67,40 @@ public:
 
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float Health = 100.f;
+	// Core Health and Stamina values
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
+		float Health = MaxHealth;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Replicated)
+		float Stamina = MaxStamina;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float Stamina = 100.f;
+		float MaxHealth = 100.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float MaxStamina = 100.f;
+
+
+	// Passive variables
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float StaminaRegenRate = 5.f;
+
+
+	// Swing and Block Stamina affecting values
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float BlockSuccessStaminaRefundAmount = 15.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float ImperfectBlockStaminaDecreaseAmount = 10.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float WrongBlockStaminaDecreaseAmount = 20.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float WrongBlockHealthDecreaseAmount = 15.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float SwingStaminaDecreaseAmount = 15.f;
 
 	AEG_BaseCharacter* OwningPlayer;
 

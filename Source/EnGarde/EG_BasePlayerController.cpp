@@ -18,17 +18,20 @@ void AEG_BasePlayerController::MoveCharacter(const FInputActionValue& Value)
 	{
 		if (AEG_BaseCharacter* PC = Cast<AEG_BaseCharacter>(GetPawn()))
 		{
-			float MovementScalar = 1.f;
-
-			if (PC->GetBlock())
+			if (!PC->bAttack)
 			{
-				MovementScalar = BlockMovementScalar;
-			}
+				float MovementScalar = 1.f;
 
-			// add forward movement
-			GetPawn()->AddMovementInput(MovementRotation.RotateVector(FVector::ForwardVector), Value[1] * MovementScalar);
-			// add right movement
-			GetPawn()->AddMovementInput(MovementRotation.RotateVector(FVector::RightVector), Value[0] * MovementScalar);
+				if (PC->GetBlock())
+				{
+					MovementScalar = BlockMovementScalar;
+				}
+
+				// add forward movement
+				GetPawn()->AddMovementInput(MovementRotation.RotateVector(FVector::ForwardVector), Value[1] * MovementScalar);
+				// add right movement
+				GetPawn()->AddMovementInput(MovementRotation.RotateVector(FVector::RightVector), Value[0] * MovementScalar);
+			}
 		}
 	}
 }
