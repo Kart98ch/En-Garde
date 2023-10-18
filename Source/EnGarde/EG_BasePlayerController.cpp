@@ -66,10 +66,7 @@ void AEG_BasePlayerController::BlockReleased()
 {
 	if (AEG_BaseCharacter* PC = Cast<AEG_BaseCharacter>(GetPawn()))
 	{
-		if (PC->GetBlock())
-		{
-			PC->Server_UpdateBlock(false);
-		}
+		PC->Server_UpdateBlock(false);
 	}
 }
 
@@ -77,10 +74,7 @@ void AEG_BasePlayerController::Attack()
 {
 	if (AEG_BaseCharacter* PC = Cast<AEG_BaseCharacter>(GetPawn()))
 	{
-		if (!PC->GetAttack())
-		{
-			PC->AttackEvent();
-		}
+		PC->AttackEvent();
 	}
 }
 
@@ -134,5 +128,7 @@ void AEG_BasePlayerController::Tick(float DeltaTime)
 
 void AEG_BasePlayerController::BeginPlay()
 {
-	bShowMouseCursor = true;
+	// TODO: Find solution for showing the mouse cursor while playing
+	//		 Having it show seems to cause problems with inputs when playing
+	bShowMouseCursor = false;
 }

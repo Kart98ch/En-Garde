@@ -143,7 +143,10 @@ void AEG_BaseCharacter::Multicast_SetAttack_Implementation(bool State)
 
 	if (State)
 	{
-		Server_UpdateBlock(false);
+		if (bBlock)
+		{
+			Server_UpdateBlock(false);
+		}
 	}
 }
 
@@ -164,7 +167,17 @@ void AEG_BaseCharacter::Server_UpdateSwingState_Implementation(ESwingState State
 
 void AEG_BaseCharacter::Multicast_SetBlock_Implementation(bool State)
 {
-	SetBlock(State);
+	if (State)
+	{
+		if (!bAttack)
+		{
+			SetBlock(State);
+		}
+	}
+	else
+	{
+		SetBlock(State);
+	}
 }
 
 void AEG_BaseCharacter::Server_UpdateBlock_Implementation(bool State)

@@ -56,6 +56,11 @@ protected:
 		void Multicast_WrongBlockDecrement();
 
 	UFUNCTION(Server, Reliable, BlueprintCallable)
+		void Server_DirectHit();
+	UFUNCTION(NetMulticast, Reliable, BlueprintCallable)
+		void Multicast_DirectHit();
+
+	UFUNCTION(Server, Reliable, BlueprintCallable)
 		void Server_SwingDecrement();
 	UFUNCTION(NetMulticast, Reliable, BlueprintCallable)
 		void Multicast_SwingDecrement();
@@ -98,6 +103,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float WrongBlockHealthDecreaseAmount = 15.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float DirectHitHealthDecreaseAmount = 50.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float SwingStaminaDecreaseAmount = 15.f;

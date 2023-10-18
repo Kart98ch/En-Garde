@@ -104,6 +104,11 @@ void UHealthAndStaminaComponent::Multicast_WrongBlockDecrement_Implementation()
 	DecreaseHealth(WrongBlockHealthDecreaseAmount);
 }
 
+void UHealthAndStaminaComponent::Multicast_DirectHit_Implementation()
+{
+	DecreaseHealth(DirectHitHealthDecreaseAmount);
+}
+
 void UHealthAndStaminaComponent::Multicast_SwingDecrement_Implementation()
 {
 	DecreaseStamina(SwingStaminaDecreaseAmount);
@@ -123,6 +128,11 @@ void UHealthAndStaminaComponent::Server_BlockDecrement_Implementation()
 void UHealthAndStaminaComponent::Server_WrongBlockDecrement_Implementation()
 {
 	Multicast_WrongBlockDecrement();
+}
+
+void UHealthAndStaminaComponent::Server_DirectHit_Implementation()
+{
+	Multicast_DirectHit();
 }
 
 void UHealthAndStaminaComponent::Server_SwingDecrement_Implementation()
