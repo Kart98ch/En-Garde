@@ -22,6 +22,9 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UFUNCTION(BlueprintCallable)
+		bool CheckDeath() const;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -59,6 +62,9 @@ protected:
 		void Server_DirectHit();
 	UFUNCTION(NetMulticast, Reliable, BlueprintCallable)
 		void Multicast_DirectHit();
+
+	UFUNCTION(NetMulticast, Reliable, BlueprintCallable)
+		void Multicast_PlayerDeath();
 
 	UFUNCTION(Server, Reliable, BlueprintCallable)
 		void Server_SwingDecrement();

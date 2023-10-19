@@ -109,6 +109,11 @@ void UHealthAndStaminaComponent::Multicast_DirectHit_Implementation()
 	DecreaseHealth(DirectHitHealthDecreaseAmount);
 }
 
+void UHealthAndStaminaComponent::Multicast_PlayerDeath_Implementation()
+{
+	OwningPlayer->PlayerDeath();
+}
+
 void UHealthAndStaminaComponent::Multicast_SwingDecrement_Implementation()
 {
 	DecreaseStamina(SwingStaminaDecreaseAmount);
@@ -132,7 +137,15 @@ void UHealthAndStaminaComponent::Server_WrongBlockDecrement_Implementation()
 
 void UHealthAndStaminaComponent::Server_DirectHit_Implementation()
 {
-	Multicast_DirectHit();
+	if (Health - DirectHitHealthDecreaseAmount <= 0)
+	{
+		Multicast_PlayerDeath();
+	}
+	else
+	{
+		Multicast_DirectHit();
+	}
+
 }
 
 void UHealthAndStaminaComponent::Server_SwingDecrement_Implementation()
@@ -159,9 +172,17 @@ void UHealthAndStaminaComponent::TickComponent(float DeltaTime, ELevelTick TickT
 		}
 	}
 
+}
+
+bool UHealthAndStaminaComponent::CheckDeath() const
+{
 	if (Health <= 0)
 	{
-		// Kill player here - call RPC for that.
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 

@@ -41,10 +41,10 @@ void AEG_BaseCharacter::BeginPlay()
 
 void AEG_BaseCharacter::CheckForStateChange()
 {
-	if (PreviousSwingState != SwingState)
+	if (PreviousSwingState != CurrentSwingState)
 	{
-		PreviousSwingState = SwingState;
-		Server_UpdateSwingState(SwingState);
+		PreviousSwingState = CurrentSwingState;
+		Server_UpdateSwingState(CurrentSwingState);
 	}
 }
 
@@ -128,7 +128,10 @@ void AEG_BaseCharacter::SetCharacterState(float X, float Y)
 		}
 	}
 
-	GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, FString::Printf(TEXT("Player State: %d"), SwingState));
+	if (IsLocallyControlled())
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, FString::Printf(TEXT("Player State: %d"), SwingState));
+	}
 
 	// Update state change
 	CheckForStateChange();
@@ -143,10 +146,7 @@ void AEG_BaseCharacter::Multicast_SetAttack_Implementation(bool State)
 
 	if (State)
 	{
-		if (bBlock)
-		{
-			Server_UpdateBlock(false);
-		}
+		Server_UpdateBlock(false);
 	}
 }
 
@@ -157,7 +157,7 @@ void AEG_BaseCharacter::Server_UpdateAttack_Implementation(bool State)
 
 void AEG_BaseCharacter::Multicast_SetSwingState_Implementation(ESwingState State)
 {
-	SetSwingState(State);
+	SwingState = State;
 }
 
 void AEG_BaseCharacter::Server_UpdateSwingState_Implementation(ESwingState State)

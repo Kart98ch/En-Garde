@@ -42,6 +42,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 		bool AttackEvent();
 
+	UFUNCTION(BlueprintImplementableEvent)
+		void PlayerDeath();
+
 #pragma region RPCs
 	// Update block
 	UFUNCTION(Server, Reliable)
@@ -64,7 +67,7 @@ public:
 #pragma region Getters & Setters
 	// Swing State
 	ESwingState GetSwingState() const { return SwingState; }
-	void SetSwingState(ESwingState NewState) { SwingState = NewState; }
+	void SetSwingState(ESwingState NewState) { CurrentSwingState = NewState; }
 	
 	// Block
 	bool GetBlock() const { return bBlock; }
@@ -91,6 +94,9 @@ protected:
 	// Swing states
 	UPROPERTY (BlueprintReadWrite, Replicated)
 		ESwingState SwingState = ESwingState::ES_Default;
+
+	UPROPERTY(BlueprintReadWrite, Replicated)
+		ESwingState CurrentSwingState = ESwingState::ES_Default;
 
 	UPROPERTY(BlueprintReadWrite, Replicated)
 		ESwingState PreviousSwingState = ESwingState::ES_Default;
