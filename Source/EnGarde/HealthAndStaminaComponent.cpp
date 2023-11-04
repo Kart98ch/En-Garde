@@ -145,7 +145,7 @@ void UHealthAndStaminaComponent::Server_WrongBlockDecrement_Implementation()
 
 void UHealthAndStaminaComponent::Server_DirectHit_Implementation()
 {
-ww	if (Health - DirectHitHealthDecreaseAmount <= 0)
+	if (Health - DirectHitHealthDecreaseAmount <= 0)
 	{
 		Multicast_DirectHit();
 		Multicast_PlayerDeath();
