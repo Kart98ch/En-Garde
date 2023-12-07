@@ -19,6 +19,8 @@ enum class ESwingState : uint8
 	ES_BottomRight	UMETA(DisplayName = "BottomRight")
 };
 
+class UHealthAndStaminaComponent;
+
 UCLASS()
 class ENGARDE_API AEG_BaseCharacter : public ACharacter
 {
@@ -44,6 +46,11 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 		void PlayerDeath();
+
+	UFUNCTION(BlueprintCallable)
+		UHealthAndStaminaComponent* GetHSComp() { return HSComp; }
+
+#pragma endregion
 
 #pragma region RPCs
 	// Update block
@@ -113,7 +120,7 @@ protected:
 
 	// Actor Components
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		class UHealthAndStaminaComponent* HSComp;
+		UHealthAndStaminaComponent* HSComp;
 
 #pragma endregion
 

@@ -25,6 +25,18 @@ public:
 	UFUNCTION(BlueprintCallable)
 		bool CheckDeath() const;
 
+	UFUNCTION(BlueprintCallable)
+		float GetHealth() { return Health; }
+
+	UFUNCTION(BlueprintCallable)
+		float GetMaxHealth() { return MaxHealth; }
+
+	UFUNCTION(BlueprintCallable)
+		float GetStamina() { return Stamina; }
+
+	UFUNCTION(BlueprintCallable)
+		float GetMaxStamina() { return MaxStamina; }
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
