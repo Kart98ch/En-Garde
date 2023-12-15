@@ -30,6 +30,10 @@ void AEG_BaseCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 
 	DOREPLIFETIME_CONDITION(AEG_BaseCharacter, bAttack, COND_None);
 
+	DOREPLIFETIME_CONDITION(AEG_BaseCharacter, CurrentSwingState, COND_None);
+
+	DOREPLIFETIME_CONDITION(AEG_BaseCharacter, PreviousSwingState, COND_None);
+
 }
 
 // Called when the game starts or when spawned
