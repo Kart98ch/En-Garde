@@ -23,19 +23,22 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintCallable)
-		bool CheckDeath() const;
+		bool CheckDeath(bool WBorDH) const;
 
 	UFUNCTION(BlueprintCallable)
-		float GetHealth() { return Health; }
+		float GetHealth() const { return Health; }
 
 	UFUNCTION(BlueprintCallable)
-		float GetMaxHealth() { return MaxHealth; }
+		float GetMaxHealth() const { return MaxHealth; }
 
 	UFUNCTION(BlueprintCallable)
-		float GetStamina() { return Stamina; }
+		float GetStamina() const { return Stamina; }
 
 	UFUNCTION(BlueprintCallable)
-		float GetMaxStamina() { return MaxStamina; }
+		float GetMaxStamina() const { return MaxStamina; }
+
+	UFUNCTION(BlueprintCallable)
+		void ResetHealthAndStamina();
 
 protected:
 	// Called when the game starts
@@ -75,6 +78,8 @@ protected:
 	UFUNCTION(NetMulticast, Reliable, BlueprintCallable)
 		void Multicast_DirectHit();
 
+	UFUNCTION(Server, Reliable, BlueprintCallable)
+		void Server_PlayerDeath();
 	UFUNCTION(NetMulticast, Reliable, BlueprintCallable)
 		void Multicast_PlayerDeath();
 
@@ -106,7 +111,7 @@ protected:
 
 	// Passive variables
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float StaminaRegenRate = 5.f;
+		float StaminaRegenRate = 10.f;
 
 
 	// Swing and Block Stamina affecting values
