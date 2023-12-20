@@ -47,7 +47,7 @@ public:
 #pragma region Variables
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
-		float CameraRotationMultiplier =  1.f;
+		float CameraRotationMultiplier =  0.75f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 		float BlockMovementScalar = 0.25f;
