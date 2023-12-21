@@ -80,3 +80,6 @@ Plugins/Developer/RiderLink/*
 
 #LongswordAnimFiles
 Content/LongswordAnimsetPro/SourceFiles/*
+
+#ArenaMarketplaceContent
+Content/Arena/*
