@@ -184,6 +184,18 @@ void UHealthAndStaminaComponent::TickComponent(float DeltaTime, ELevelTick TickT
 				Stamina = MaxStamina;
 			}
 		}
+		else
+		{
+			if (Stamina < NoBlockStaminaRegenCap)
+			{
+				Stamina += NoBlockStaminaRegenRate * DeltaTime;
+
+				if (Stamina >= NoBlockStaminaRegenCap)
+				{
+					Stamina = NoBlockStaminaRegenCap;
+				}
+			}
+		}
 	}
 
 }

@@ -113,6 +113,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float StaminaRegenRate = 10.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float NoBlockStaminaRegenRate = 4.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float NoBlockStaminaRegenCap = 25.f;
 
 	// Swing and Block Stamina affecting values
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
