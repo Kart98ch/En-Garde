@@ -33,6 +33,11 @@ void AEG_BasePlayerController::MoveCharacter(const FInputActionValue& Value)
 					{
 						// add forward movement
 						GetPawn()->AddMovementInput(MovementRotation.RotateVector(FVector::ForwardVector), Value[1] * BackwardsMovementScalar);
+
+						// add right movement
+						GetPawn()->AddMovementInput(MovementRotation.RotateVector(FVector::RightVector), Value[0] * BackwardsMovementScalar);
+
+						return;
 					}
 					else 
 					{

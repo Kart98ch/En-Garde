@@ -56,7 +56,7 @@ protected:
 		float StrafeMovementScalar = 0.75f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
-		float BackwardsMovementScalar = 0.5f;
+		float BackwardsMovementScalar = 0.4f;
 
 #pragma endregion
 

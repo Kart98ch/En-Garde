@@ -133,7 +133,7 @@ protected:
 		float WrongBlockHealthDecreaseAmount = 15.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float DirectHitHealthDecreaseAmount = 50.f;
+		float DirectHitHealthDecreaseAmount = 45.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float SwingStaminaDecreaseAmount = 15.f;
