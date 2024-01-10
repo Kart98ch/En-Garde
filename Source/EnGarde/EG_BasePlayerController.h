@@ -68,6 +68,9 @@ protected:
 
 	virtual void BeginPlay() override;
 
-
+	UFUNCTION(Server, Reliable)
+		void Server_UpdateMovement(FVector WorldDirection, float ScaleValue);
+	UFUNCTION(NetMulticast, Reliable)
+		void Multicast_UpdateMovement(FVector WorldDirection, float ScaleValue);
 #pragma endregion
 };
