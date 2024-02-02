@@ -12,7 +12,7 @@ UHealthAndStaminaComponent::UHealthAndStaminaComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	SetIsReplicatedByDefault(true);
+	//SetIsReplicatedByDefault(true);
 
 }
 
@@ -109,6 +109,11 @@ void UHealthAndStaminaComponent::Multicast_DirectHit_Implementation()
 	DecreaseHealth(DirectHitHealthDecreaseAmount);
 }
 
+void UHealthAndStaminaComponent::Server_PlayerDeath_Implementation()
+{
+	Multicast_PlayerDeath_Implementation();
+}
+
 void UHealthAndStaminaComponent::Multicast_PlayerDeath_Implementation()
 {
 	OwningPlayer->PlayerDeath();
@@ -179,20 +184,50 @@ void UHealthAndStaminaComponent::TickComponent(float DeltaTime, ELevelTick TickT
 				Stamina = MaxStamina;
 			}
 		}
+		else
+		{
+			if (Stamina < NoBlockStaminaRegenCap)
+			{
+				Stamina += NoBlockStaminaRegenRate * DeltaTime;
+
+				if (Stamina >= NoBlockStaminaRegenCap)
+				{
+					Stamina = NoBlockStaminaRegenCap;
+				}
+			}
+		}
 	}
 
 }
 
-bool UHealthAndStaminaComponent::CheckDeath() const
+bool UHealthAndStaminaComponent::CheckDeath(bool WBorDH) const
 {
-	if (Health <= 0)
+	if (WBorDH)
 	{
-		return true;
+		if (Health - WrongBlockHealthDecreaseAmount <= 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	else
 	{
-		return false;
+		if (Health - DirectHitHealthDecreaseAmount <= 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }
 
-
+void UHealthAndStaminaComponent::ResetHealthAndStamina()
+{
+	Health = MaxHealth;
+	Stamina = MaxStamina;
+}

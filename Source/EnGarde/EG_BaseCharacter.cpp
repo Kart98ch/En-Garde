@@ -132,10 +132,10 @@ void AEG_BaseCharacter::SetCharacterState(float X, float Y)
 		}
 	}
 
-	if (IsLocallyControlled())
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, FString::Printf(TEXT("Player State: %d"), SwingState));
-	}
+	//if (IsLocallyControlled())
+	//{
+	//	GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, //FString::Printf(TEXT("Player State: %d"), /SwingState));
+	//}
 
 	// Update state change
 	CheckForStateChange();

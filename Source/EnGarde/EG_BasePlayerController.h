@@ -47,10 +47,16 @@ public:
 #pragma region Variables
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
-		float CameraRotationMultiplier =  1.f;
+		float CameraRotationMultiplier =  0.90f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 		float BlockMovementScalar = 0.25f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+		float StrafeMovementScalar = 0.75f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+		float BackwardsMovementScalar = 0.4f;
 
 #pragma endregion
 
@@ -62,6 +68,9 @@ protected:
 
 	virtual void BeginPlay() override;
 
-
+	UFUNCTION(Server, Reliable)
+		void Server_UpdateMovement(FVector WorldDirection, float ScaleValue);
+	UFUNCTION(NetMulticast, Reliable)
+		void Multicast_UpdateMovement(FVector WorldDirection, float ScaleValue);
 #pragma endregion
 };

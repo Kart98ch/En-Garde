@@ -20,17 +20,40 @@ void AEG_BasePlayerController::MoveCharacter(const FInputActionValue& Value)
 		{
 			if (!PC->bAttack)
 			{
-				float MovementScalar = 1.f;
-
 				if (PC->GetBlock())
 				{
-					MovementScalar = BlockMovementScalar;
-				}
+					// add forward movement
+					GetPawn()->AddMovementInput(MovementRotation.RotateVector(FVector::ForwardVector), Value[1] * BlockMovementScalar);
+					//Server_UpdateMovement(MovementRotation.RotateVector(FVector::ForwardVector), Value[1] * BlockMovementScalar);
 
-				// add forward movement
-				GetPawn()->AddMovementInput(MovementRotation.RotateVector(FVector::ForwardVector), Value[1] * MovementScalar);
-				// add right movement
-				GetPawn()->AddMovementInput(MovementRotation.RotateVector(FVector::RightVector), Value[0] * MovementScalar);
+					// add right movement
+					GetPawn()->AddMovementInput(MovementRotation.RotateVector(FVector::RightVector), Value[0] * BlockMovementScalar);
+					//Server_UpdateMovement(MovementRotation.RotateVector(FVector::RightVector), Value[0] * BlockMovementScalar);
+				}
+				else
+				{
+					if (Value[1] < 0)
+					{
+						// add forward movement
+						GetPawn()->AddMovementInput(MovementRotation.RotateVector(FVector::ForwardVector), Value[1] * BackwardsMovementScalar);
+						//Server_UpdateMovement(MovementRotation.RotateVector(FVector::ForwardVector), Value[1] * BackwardsMovementScalar);
+
+						// add right movement
+						GetPawn()->AddMovementInput(MovementRotation.RotateVector(FVector::RightVector), Value[0] * BackwardsMovementScalar);
+						//Server_UpdateMovement(MovementRotation.RotateVector(FVector::RightVector), Value[0] * BackwardsMovementScalar);
+
+						return;
+					}
+					else 
+					{
+						GetPawn()->AddMovementInput(MovementRotation.RotateVector(FVector::ForwardVector), Value[1]);
+						//Server_UpdateMovement(MovementRotation.RotateVector(FVector::ForwardVector), Value[1]);
+					}
+
+					// add right movement
+					GetPawn()->AddMovementInput(MovementRotation.RotateVector(FVector::RightVector), Value[0] * StrafeMovementScalar);
+					//Server_UpdateMovement(MovementRotation.RotateVector(FVector::RightVector), Value[0] * StrafeMovementScalar);
+				}
 			}
 		}
 	}
@@ -41,7 +64,7 @@ void AEG_BasePlayerController::TurnCamera(const FInputActionValue& Value)
 
 	if (Value.GetMagnitude() != 0.f)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, FString::Printf(TEXT("TurnCamera")));
+		// GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, FString::Printf(TEXT("TurnCamera")));
 
 		AddYawInput(Value.GetMagnitude() * CameraRotationMultiplier);
 	}
@@ -131,4 +154,14 @@ void AEG_BasePlayerController::BeginPlay()
 	// TODO: Find solution for showing the mouse cursor while playing
 	//		 Having it show seems to cause problems with inputs when playing
 	bShowMouseCursor = false;
+}
+
+void AEG_BasePlayerController::Server_UpdateMovement_Implementation(FVector WorldDirection, float ScaleValue)
+{
+	Multicast_UpdateMovement(WorldDirection, ScaleValue);
+}
+
+void AEG_BasePlayerController::Multicast_UpdateMovement_Implementation(FVector WorldDirection, float ScaleValue)
+{
+	GetPawn()->AddMovementInput(WorldDirection, ScaleValue);
 }
